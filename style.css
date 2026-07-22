@@ -1,0 +1,619 @@
+/* ==========================================================================
+   CSS VARIABLE DEFINITIONS & SYSTEM SETUP
+   ========================================================================== */
+:root {
+  --bg-black: #030308;
+  --bg-midnight: #0a0b1e;
+  --bg-purple: #160a29;
+  
+  --accent-pink: #ff2a85;
+  --accent-gold: #ffd700;
+  --accent-white: #ffffff;
+  
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: blur(20px);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+
+  --font-heading: 'Cinzel', serif;
+  --font-romantic: 'Great Vibes', cursive;
+  --font-sans: 'Inter', sans-serif;
+  
+  --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-black);
+  color: var(--accent-white);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Canvas Overlay */
+#fx-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   GLASSMORPHISM & UI UTILITIES
+   ========================================================================== */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 24px;
+}
+
+.glass-btn {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 40px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.4s var(--transition-smooth);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.glass-btn:hover {
+  background: rgba(255, 42, 133, 0.25);
+  border-color: var(--accent-pink);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 25px rgba(255, 42, 133, 0.4);
+}
+
+.music-control-btn {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 30px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hidden {
+  display: none !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   SCENE CONTROLLER & TRANSITIONS
+   ========================================================================== */
+.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.5s var(--transition-smooth), visibility 1.5s var(--transition-smooth);
+}
+
+.scene.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ==========================================================================
+   SCENE 1: CINEMATIC INTRO
+   ========================================================================== */
+.cinematic-text-wrapper {
+  text-align: center;
+  padding: 0 20px;
+}
+
+.fade-text {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  font-size: clamp(1.4rem, 4vw, 2.8rem);
+  letter-spacing: 2px;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 2s var(--transition-smooth);
+}
+
+.fade-text.in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 42, 133, 0.3);
+}
+
+/* ==========================================================================
+   SCENE 2: GALAXY TITLE REVEAL
+   ========================================================================== */
+.galaxy-title-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.subtitle-fade {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1.2s var(--transition-smooth);
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  letter-spacing: 6px;
+  background: linear-gradient(135deg, #fff 30%, var(--accent-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 1.5s var(--transition-smooth);
+}
+
+/* .hero-name {
+  font-family: var(--font-romantic);
+  font-size: clamp(3rem, 9vw, 7rem);
+  color: var(--accent-pink);
+  text-shadow: 0 0 30px rgba(255, 42, 133, 0.8);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1.5s var(--transition-smooth);
+} */
+
+.hero-name {
+  font-family: var(--font-romantic);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: var(--accent-pink);
+  text-shadow: 0 0 20px rgba(255, 42, 133, 0.6);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1.5s var(--transition-smooth);
+}
+
+/* Animation trigger classes */
+.show-element {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* ==========================================================================
+   SCENE 3: INTERACTIVE LOVE LETTER
+   ========================================================================== */
+.envelope-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.envelope {
+  position: relative;
+  width: 320px;
+  height: 220px;
+  background: #1a102f;
+  border-radius: 8px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(138, 43, 226, 0.2);
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+@media(min-width: 768px) {
+  .envelope { width: 480px; height: 300px; }
+}
+
+.envelope:hover {
+  transform: translateY(-5px);
+}
+
+.pocket {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2a164d 0%, #120924 100%);
+  border-radius: 8px;
+  z-index: 3;
+  clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+  border: 1px solid var(--glass-border);
+}
+
+.top-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #321a5c;
+  clip-path: polygon(0 0, 50% 55%, 100% 0);
+  transform-origin: top;
+  transition: transform 0.6s var(--transition-smooth);
+  z-index: 4;
+}
+
+.envelope.open .top-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.letter {
+  position: absolute;
+  bottom: 10px;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  padding: 24px;
+  z-index: 2;
+  transition: transform 0.8s var(--transition-smooth);
+  overflow-y: auto;
+}
+
+.envelope.open .letter {
+  transform: translateY(-20px) scale(1);
+  z-index: 5;
+  height: 260px;
+  max-height: 45vh;
+}
+
+@media (min-width: 768px) {
+  .envelope.open .letter {
+    transform: translateY(-30px) scale(1.02);
+    height: 320px;
+    max-height: 50vh;
+  }
+}
+
+.typewriter-body {
+  font-family: 'Georgia', serif;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: #e2d9f3;
+  white-space: pre-wrap;
+}
+
+.tap-hint {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ==========================================================================
+   SCENE 4: 3D PHOTO CAROUSEL
+   ========================================================================== */
+.gallery-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  letter-spacing: 3px;
+  text-align: center;
+  color: var(--accent-white);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+.carousel-3d-stage {
+  width: 100%;
+  height: 380px;
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-3d {
+  position: relative;
+  width: 200px;
+  height: 280px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s var(--transition-smooth);
+}
+
+@media(min-width: 768px) {
+  .carousel-3d { width: 240px; height: 340px; }
+}
+
+.carousel-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  background: #000;
+}
+
+.carousel-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-controls {
+  display: flex;
+  gap: 20px;
+}
+
+/* ==========================================================================
+   SCENE 5: LIVE LOVE COUNTER
+   ========================================================================== */
+.counter-container {
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  max-width: 90vw;
+  width: 650px;
+}
+
+.timer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  width: 100%;
+}
+
+.timer-unit {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px 10px;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timer-unit span {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 4vw, 2.8rem);
+  font-weight: 600;
+  color: var(--accent-gold);
+}
+
+.timer-unit label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.counter-subtext {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+}
+
+/* ==========================================================================
+   SCENE 6: INTERACTIVE CAKE
+   ========================================================================== */
+.cake-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.cake-subtitle {
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.cake-3d {
+  position: relative;
+  width: 220px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 40px;
+}
+
+.cake-plate {
+  width: 240px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.cake-tier {
+  background: linear-gradient(135deg, #ff2a85 0%, #8a2be2 100%);
+  border-radius: 12px 12px 4px 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tier-bottom {
+  width: 180px;
+  height: 60px;
+}
+
+.tier-top {
+  width: 120px;
+  height: 50px;
+  margin-bottom: -2px;
+}
+
+.candle {
+  position: absolute;
+  top: 35px;
+  width: 10px;
+  height: 40px;
+  background: linear-gradient(to right, #fff, #ffd700);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.flame {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 22px;
+  background: radial-gradient(ellipse at bottom, #ffeb3b 0%, #ff5722 60%, transparent 100%);
+  border-radius: 50% 50% 20% 20%;
+  box-shadow: 0 0 15px #ff9800;
+  animation: flicker 0.1s infinite alternate;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.flame.extinguished {
+  opacity: 0;
+  transform: translateX(-50%) scale(0);
+}
+
+@keyframes flicker {
+  0% { transform: translateX(-50%) scale(1) rotate(-1deg); }
+  100% { transform: translateX(-50%) scale(1.08) rotate(1deg); }
+}
+
+.smoke-container {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   SCENE 7 & 8: GRAND FINALE
+   ========================================================================== */
+.grand-finale-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.grand-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: 4px;
+}
+
+.grand-name {
+  font-family: var(--font-romantic);
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  color: var(--accent-pink);
+  text-shadow: 0 0 30px rgba(255, 42, 133, 0.8);
+}
+
+.infinity-wrapper {
+  position: relative;
+  width: 250px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.infinity-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px var(--accent-pink));
+}
+
+#infinity-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 5s linear forwards infinite;
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: 0; }
+}
+
+.heart-pulse {
+  position: absolute;
+  font-size: 1.8rem;
+  animation: pulse-heart 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-heart {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 15px var(--accent-pink)); }
+}
+
+.forever-signature {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+}
+
+.highlight-author {
+  color: var(--accent-gold);
+  font-weight: 600;
+}

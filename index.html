@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Thandar Nwaye | A Cinematic Story</title>
+  <meta name="description" content="A magical birthday tribute created with love by Myo Lwin.">
+
+  <link rel="stylesheet" href="style.css">
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"> -->
+ 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@400;600;800&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Audio Element -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="assets/music/bg-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Canvas Overlay for Stars, Aurora, Fireworks, Petals & Confetti -->
+  <canvas id="fx-canvas"></canvas>
+
+  <!-- Floating Audio Controls -->
+  <button id="music-btn" class="glass-pill music-control-btn" aria-label="Toggle Music">
+    <span class="music-icon">🎵</span>
+    <span class="music-label">Play Music</span>
+  </button>
+
+  <!-- SCENE 1: CINEMATIC INTRO
+  <section id="scene-1" class="scene active">
+    <div class="cinematic-text-wrapper">
+      <h1 class="fade-text glow-text" id="scene1-text">Tonight, every star shines a little brighter...</h1>
+    </div>
+  </section> -->
+
+  <!-- SCENE 1: CINEMATIC INTRO -->
+  <section id="scene-1" class="scene active">
+    <div class="cinematic-text-wrapper" id="start-trigger" style="cursor: pointer;">
+      <h1 class="fade-text glow-text in" id="scene1-text">✨ Tap Anywhere to Begin ✨</h1>
+    </div>
+  </section>
+
+  <!-- SCENE 2: GALAXY TITLE reveal -->
+  <section id="scene-2" class="scene">
+    <div class="galaxy-title-container">
+      <p class="subtitle-fade" id="scene2-sub">There is someone very special...</p>
+      <h2 class="hero-title" id="scene2-h1">HAPPY BIRTHDAY Bae❤️</h2>
+      <h3 class="hero-name" id="scene2-h2">THANDAR NWAYE</h3>
+      <button class="cta-button glass-btn" id="to-scene-3">Open Your Letter ✨</button>
+    </div>
+  </section>
+
+  <!-- SCENE 3: INTERACTIVE LOVE LETTER -->
+  <section id="scene-3" class="scene">
+    <div class="envelope-wrapper">
+      <div class="envelope" id="envelope">
+        <div class="flap top-flap"></div>
+        <div class="pocket"></div>
+        <div class="letter glass-card">
+          <div class="letter-inner">
+            <p id="typewriter-text" class="typewriter-body"></p>
+          </div>
+        </div>
+      </div>
+      <p class="tap-hint" id="envelope-hint">Tap the envelope to open</p>
+      <button class="cta-button glass-btn hidden" id="to-scene-4">View Our Memories 📸</button>
+    </div>
+  </section>
+
+  <!-- SCENE 4: 3D PHOTO CAROUSEL -->
+  <section id="scene-4" class="scene">
+    <div class="gallery-container">
+      <h2 class="section-title">Four Years of Magical Moments</h2>
+      <div class="carousel-3d-stage">
+        <div class="carousel-3d" id="carousel-3d">
+          <div class="carousel-card"><img src="assets/images/photo1.jpg" alt="Memory 1" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo2.jpg" alt="Memory 2" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo3.jpg" alt="Memory 3" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo4.jpg" alt="Memory 4" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo5.jpg" alt="Memory 5" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo6.jpg" alt="Memory 6" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo7.jpg" alt="Memory 7" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo8.jpg" alt="Memory 8" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo9.jpg" alt="Memory 9" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo10.jpg" alt="Memory 10" loading="lazy"></div>
+          <!--<div class="carousel-card"><img src="assets/images/photo11.jpg" alt="Memory 11" loading="lazy"></div>
+           <div class="carousel-card"><img src="assets/images/photo12.jpg" alt="Memory 12" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo13.jpg" alt="Memory 13" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo14.jpg" alt="Memory 14" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo15.jpg" alt="Memory 15" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo16.jpg" alt="Memory 16" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo17.jpg" alt="Memory 17" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo18.jpg" alt="Memory 18" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo19.jpg" alt="Memory 19" loading="lazy"></div>
+          <div class="carousel-card"><img src="assets/images/photo20.jpg" alt="Memory 20" loading="lazy"></div> -->
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn glass-btn" id="prev-photo">❮</button>
+        <button class="carousel-btn glass-btn" id="next-photo">❯</button>
+      </div>
+      <button class="cta-button glass-btn" id="to-scene-5">Our Journey ⏳</button>
+    </div>
+  </section>
+
+  <!-- SCENE 5: LIVE LOVE COUNTER -->
+  <section id="scene-5" class="scene">
+    <div class="counter-container glass-card">
+      <h2 class="section-title">We Have Been Together For</h2>
+      <div class="timer-grid">
+        <div class="timer-unit"><span id="timer-days">0000</span><label>Days</label></div>
+        <div class="timer-unit"><span id="timer-hours">00</span><label>Hours</label></div>
+        <div class="timer-unit"><span id="timer-minutes">00</span><label>Minutes</label></div>
+        <div class="timer-unit"><span id="timer-seconds">00</span><label>Seconds</label></div>
+      </div>
+      <p class="counter-subtext">...and every second spent with you is my favorite second.</p>
+      <button class="cta-button glass-btn" id="to-scene-6">Make a Wish 🎂</button>
+    </div>
+  </section>
+
+  <!-- SCENE 6: INTERACTIVE BIRTHDAY CAKE -->
+  <section id="scene-6" class="scene">
+    <div class="cake-container">
+      <h2 class="section-title">Blow Out Your Candle</h2>
+      <p class="cake-subtitle">Make a wish and tap the flame...</p>
+      
+      <div class="cake-3d" id="cake-node">
+        <div class="candle">
+          <div class="flame" id="flame"></div>
+          <div class="smoke-container" id="smoke-container"></div>
+        </div>
+        <div class="cake-tier tier-top"></div>
+        <div class="cake-tier tier-bottom"></div>
+        <div class="cake-plate"></div>
+      </div>
+
+      <button class="cta-button glass-btn hidden" id="to-scene-7">Start the Celebration 🎉</button>
+    </div>
+  </section>
+
+  <!-- SCENE 7 & 8: GRAND CELEBRATION & INFINITY HEART -->
+  <section id="scene-7" class="scene">
+    <div class="grand-finale-container">
+      <h2 class="grand-title">Happy Birthday Bae</h2>
+      <h1 class="grand-name">THANDAR NWAYE ❤️</h1>
+      <h3 class="grand-speech">✨May all your days be filled with happiness and love.✨</h3>
+
+      
+      <!-- SVG Infinity Heart -->
+      <div class="infinity-wrapper">
+        <svg class="infinity-svg" viewBox="0 0 400 200">
+          <path id="infinity-path" d="M 100 100 C 20 20, 20 180, 100 100 C 180 20, 180 180, 100 100 Z" fill="none" stroke="url(#goldGradient)" stroke-width="4" />
+          <defs>
+            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFD700" />
+              <stop offset="50%" stop-color="#FF69B4" />
+              <stop offset="100%" stop-color="#8A2BE2" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="heart-pulse">💖</div>
+      </div>
+
+      <p class="forever-signature">Forever Yours,<br><span class="highlight-author">OPPA</span></p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
